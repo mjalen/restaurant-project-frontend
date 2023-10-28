@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap');
+
+:root {
+    --flex-gap-size: 15px;
+}
+
+html, body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    /* background-color: #f4f4f4; */
+    background: radial-gradient(at 50% 75%, rgb(255, 255, 255), rgb(39, 186, 255));
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+div {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: center;
+    justify-content: center;
+    gap: var(--flex-gap-size);
+    height: 100%;
+}
+
+form {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: var(--flex-gap-size);
+}
+
+h1 {
+    font-size: 24px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    flex-grow: 1;
+    flex-basis: 45%;
+}
+
+#login-box {
+    height: auto;
+    margin: 0;
+    padding: 40px;
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#btn-reverse-flex {
+    display: flex;
+    flex-flow: row-reverse wrap;
+    justify-content: center;
+    gap: var(--flex-gap-size);
+}
+
+#signin-btn {
+    background-color: #5cb85c;
+}
+
+#signin-btn:hover {
+    background-color: #4cae4c;
+}
+
+#signup-btn {
+    background-color: #d9534f;
+}
+
+#signup-btn:hover {
+    background-color: #d43f3a;
+}
