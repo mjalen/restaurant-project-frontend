@@ -5,19 +5,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Restaurant Reservation Application</title>
-    <link rel="stylesheet" href="style/index.css"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        .signup-btn {
+            background-color: #d9534f;
+        }
+        .signup-btn:hover {
+            background-color: #d43f3a;
+        }
+    </style>
 </head>
 <body>
-    <div class="flex-parent">
-        <div class="container ">
-            <h1>Restaurant Reservation Application</h1>
-            <form>
-                <input type="text" placeholder="Username" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit">Sign In</button>
-                <button type="button" class="signup-btn">Sign Up</button>
-            </form>
-        </div>
-    </div> 
+    <div class="container">
+        <h1>Restaurant Reservation Application</h1>
+        <form>
+            <input type="text" placeholder="Username" required>
+            <input type="password" placeholder="Password" required>
+            <button type="submit">Sign In</button>
+            <button type="button" class="signup-btn">Sign Up</button>
+        </form>
+    </div>
 </body>
 </html>
