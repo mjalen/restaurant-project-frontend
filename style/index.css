@@ -3,9 +3,6 @@ body {
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-
-    /* Page centering */
-
 }
 
 .container {
@@ -41,13 +38,6 @@ button {
 
 button:hover {
     background-color: #4cae4c;
-}
-
-.flex-parent {
-    display: flex;
-    flex-flow: row nowrap;
-    align-content: center;
-    justify-content: center;
 }
 
 .signup-btn {
