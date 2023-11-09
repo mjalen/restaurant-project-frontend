@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Calendar</title>
+
+    <link rel="stylesheet" href="customer_cal_style.css">
+  </head>
+  <body>
+    
+    <div id="container">
+      <div id="header">
+        <div id="monthDisplay"></div>
+        <div>
+          <button id="backButton">Back</button>
+          <button id="nextButton">Next</button>
+        </div>
+      </div>
+
+      <div id="weekdays">
+        <div>Sunday</div>
+        <div>Monday</div>
+        <div>Tuesday</div>
+        <div>Wednesday</div>
+        <div>Thursday</div>
+        <div>Friday</div>
+        <div>Saturday</div>
+      </div>
+
+      <div id="calendar"></div>
+    </div>
+    
+	<div id="reservationTimesModal" style="display: none;">
+		<h2>Available Times</h2>
+		<p>Selected Date: <span id="selectedDate"></span></p>
+		<div class="times" id="timesContainer">
+			<!-- DYnamic Times buttons added here. -->
+		</div>
+		<button id="closeTimesButton">Close</button>
+	</div>
+	    <div id="newReservationModal" style="display: none;">
+	      <h3>New Reservation</h3>
+		  <p>Selected Date: <span id="selectedDateReservation"></span></p>
+		  <p>Selected Time: <span id="selectedTime"></span></p>
+	      <input id="customerFirst" placeholder="First Name" />
+		  <input id="customerLast" placeholder="Last Name" />
+		  <input id="customerPhone" placeholder="Phone: XXX-XXX-XXXX" />
+		  <input id="customerEmail" placeholder="Email" />
+		  
+	      <button id="saveButton">Save</button>
+	      <button id="cancelButton">Cancel</button>
+	    </div>
+	</div> 
+
+	<div id="modalBackDrop"></div>
+
+    <script src="./customer_cal_script.js"></script>
+  </body>
+</html>
