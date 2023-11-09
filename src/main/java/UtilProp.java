@@ -7,10 +7,10 @@ import java.io.FileNotFoundException;
 
 public class UtilProp {
    static final boolean _W = System.getProperty("os.name").toLowerCase().contains("windows");
-   static String _PROP_FILENAME_WIN_LOCAL = "C:\\Users\\whitl.DESKTOP-9DCFI2P\\Documents\\School\\Fall 2023\\Software Engineering\\workspaceCSCI4830-TechProject-Whitaker\\CSCI4830-IndividualTechProject-Whitaker\\src\\main\\webapp\\config.properties";
+   static String _PROP_FILENAME_WIN_LOCAL = "C:\\Users\\whitl.DESKTOP-9DCFI2P\\Documents\\School\\Fall 2023\\Software Engineering\\Group Project Workspace\\CSCI4830-GroupProjectDelta\\src\\main\\webapp\\config.properties";
    static String _PROP_FILENAME_OSX_LOCAL = "/YOUR_PATH/webproject/WebContent/config.properties";
    // * Remote server path
-   static String _PROP_FILENAME_REMOTE = "/var/lib/tomcat9/webapps/CSCI4830-IndividualTechProject-Whitaker/config.properties";
+   static String _PROP_FILENAME_REMOTE = "/var/lib/tomcat9/webapps/xxxx/config.properties";
    static Properties prop = new Properties();
 
    public static void loadProperty() throws Exception {
