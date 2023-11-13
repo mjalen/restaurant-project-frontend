@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="customer_cal_style.css">
   </head>
-  <body>
+  <div>
     
     <div id="container">
       <div id="header">
@@ -32,8 +32,13 @@
     </div>
     
 	<div id="reservationTimesModal" style="display: none;">
-		<h2>Available Times</h2>
-		<p>Selected Date: <span id="selectedDate"></span></p>
+		<h2>Selected Date: <span id="selectedDate"></span></h2>
+		<div id="currentReservations">
+  			<p>Your Reservations:</p>
+  			<div id="existingReservationInfo"></div>
+		</div>
+		<p>Available Times</p>
+		
 		<div class="times" id="timesContainer">
 			<!-- DYnamic Times buttons added here. -->
 		</div>
@@ -52,6 +57,14 @@
 	      <button id="cancelButton">Cancel</button>
 	    </div>
 	</div> 
+	<div id="deleteReservationModal" style="display: none;">
+	    <h3>Delete Reservation</h3>
+	    <p>Selected Date: <span id="selectedDateDelete"></span></p>
+	    <p>Delete the current reservation for this day?</p>
+	
+	    <button id="deleteReservation">Delete</button>
+	    <button id="goBack">Back</button>
+	</div>
 
 	<div id="modalBackDrop"></div>
 
