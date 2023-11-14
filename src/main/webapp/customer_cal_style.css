@@ -180,3 +180,9 @@ button {
   font-size: 12px;
   color: rgb(0, 0, 255); 
 }
+
+.inactive {
+  color: #555; 
+  background-color: #eee;
+  cursor: not-allowed; 
+}

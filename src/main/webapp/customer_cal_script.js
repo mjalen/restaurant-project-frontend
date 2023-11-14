@@ -16,6 +16,7 @@ const modalBackDrop = document.getElementById('modalBackDrop');
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const reservationTimes = ['09:00 AM', '12:00 PM', '06:00 PM', '08:00 PM'];
 let data;
+let reservationIds = [];
 
 function openReservationTimesModal(date) {
 	document.getElementById('selectedDate').innerText = date;
@@ -46,10 +47,12 @@ function openDeleteReservationModal(selectedDate) {
   const deleteReservationModal = document.getElementById('deleteReservationModal');
   deleteReservationModal.style.display = 'block';
 
+  const reservationId = reservationIds[data.reservation.findIndex(reservation => reservation.date === selectedDate)];
+
   document.getElementById('selectedDateDelete').innerText = selectedDate;
 
   document.getElementById('deleteReservation').addEventListener('click', () => {
-    deleteReservation(selectedDate);
+    deleteReservation(reservationId);
   });
 
   document.getElementById('goBack').addEventListener('click', () => {
@@ -96,6 +99,7 @@ function fetchReservations() {
 		.then(reservationsData => {
 			data = reservationsData;
 			displayReservations(reservationsData);
+			reservationIds = reservationsData.reservation.map(reservation => reservation.id);
 		})
 		.catch(error => {
 			console.error('Error fetching reservations:', error);
@@ -137,53 +141,57 @@ function displayReservations(reservationsData) {
 }
 
 function load() {
-	const dt = new Date();
+  const dt = new Date();
 
-	if (nav !== 0) {
-		dt.setMonth(new Date().getMonth() + nav);
-	}
+  if (nav !== 0) {
+    dt.setMonth(new Date().getMonth() + nav);
+  }
 
-	month = dt.getMonth(); 
-	year = dt.getFullYear();
+  month = dt.getMonth();
+  year = dt.getFullYear();
 
-	const day = dt.getDate();
-	const firstDayOfMonth = new Date(year, month, 1);
-	const daysInMonth = new Date(year, month + 1, 0).getDate();
-	
-	const dateString = firstDayOfMonth.toLocaleDateString('en-us', {
-		weekday: 'long',
-		year: 'numeric',
-		month: 'numeric',
-		day: 'numeric',
-	});
-	const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
+  const day = dt.getDate();
+  const firstDayOfMonth = new Date(year, month, 1);
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-	document.getElementById('monthDisplay').innerText = 
-		`${dt.toLocaleDateString('en-us', { month: 'long' })} ${year}`;
+  const dateString = firstDayOfMonth.toLocaleDateString('en-us', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  });
+  const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
 
-	calendar.innerHTML = '';
+  document.getElementById('monthDisplay').innerText =
+    `${dt.toLocaleDateString('en-us', { month: 'long' })} ${year}`;
 
-	for(let i = 1; i <= paddingDays + daysInMonth; i++) {
-		const daySquare = document.createElement('div');
-		daySquare.classList.add('day');
+  calendar.innerHTML = '';
 
-		const dayString = `${month + 1}/${i - paddingDays}/${year}`;
+  for (let i = 1; i <= paddingDays + daysInMonth; i++) {
+    const daySquare = document.createElement('div');
+    daySquare.classList.add('day');
 
-		if (i > paddingDays) {
-			daySquare.innerText = i - paddingDays;
-			
-			if (i - paddingDays === day && nav === 0) {
-				daySquare.id = 'currentDay';
-			}
+    const dayString = `${month + 1}/${i - paddingDays}/${year}`;
 
-			daySquare.addEventListener('click', () => openModal(dayString));
-		} else {
-			daySquare.classList.add('padding');
-		}
+    if (i > paddingDays) {
+      daySquare.innerText = i - paddingDays;
 
-		calendar.appendChild(daySquare);    
-	}
-	fetchReservations();
+      if (i - paddingDays === day && nav === 0) {
+        daySquare.id = 'currentDay';
+      }
+
+      if (new Date(year, month, daySquare.innerText) >= new Date()) {
+        daySquare.addEventListener('click', () => openModal(dayString));
+      } else {
+        daySquare.classList.add('inactive');
+      }
+    } else {
+      daySquare.classList.add('padding');
+    }
+
+    calendar.appendChild(daySquare);
+  }
+  fetchReservations();
 }
 
 function closeReservationTimesModal() {
@@ -247,9 +255,30 @@ function saveReservation() {
 	});
 }
 
-function deleteReservation() {
-
+function deleteReservation(reservationId) {
+  fetch('Cust_Calendar_Deletion', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id: reservationId }),
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Error:${response.status}`);
+    }
+    return response.json();
+  })
+  .then(responseData => {
+    console.log('Success!:', responseData);
+    closeDeleteReservationModal();
+    fetchReservations();
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }
+
 
 function initButtons() {
 	document.getElementById('nextButton').addEventListener('click', () => {
