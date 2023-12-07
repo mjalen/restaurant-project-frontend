@@ -14,7 +14,7 @@ const customerPhone = document.getElementById('customerPhone');
 const customerEmail = document.getElementById('customerEmail');
 const modalBackDrop = document.getElementById('modalBackDrop');
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const reservationTimes = ['09:00 AM', '12:00 PM', '06:00 PM', '08:00 PM'];
+const reservationTimes = ['11:00 AM','11:30 AM','12:00 AM', '12:30 PM', '04:00 PM', '04:30 PM'];
 let data;
 let reservationIds = [];
 
@@ -185,6 +185,7 @@ function load() {
       } else {
         daySquare.classList.add('inactive');
       }
+      
     } else {
       daySquare.classList.add('padding');
     }
@@ -215,45 +216,80 @@ function closeNewReservationModal(){
 }
 
 function saveReservation() {
-	const selectedDate = document.getElementById('selectedDate').innerText;
-	const selectedTime = document.getElementById('selectedTime').innerText;
-	const first_name = document.getElementById('customerFirst').value;
-	const last_name = document.getElementById('customerLast').value;
-	const phone = document.getElementById('customerPhone').value;
-	const email = document.getElementById('customerEmail').value;
+  const selectedDate = document.getElementById('selectedDate').innerText;
+  const selectedTime = document.getElementById('selectedTime').innerText;
+  const first_name = document.getElementById('customerFirst').value;
+  const last_name = document.getElementById('customerLast').value;
+  const phoneInput = document.getElementById('customerPhone');
+  const emailInput = document.getElementById('customerEmail');
+  const phone = phoneInput.value;
+  const email = emailInput.value;
 
-	const reservationData = {
-		first_name: first_name,
-		last_name: last_name,
-		phone: phone,
-		email: email,
-		date: selectedDate,
-		time: selectedTime
-	};
+  // Validation checks
+  let invalidMessages = [];
 
-	fetch('CustomerCalendar', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(reservationData),
-	})
-	.then(response => {
-		if (!response.ok) {
-			throw new Error(`Error:${response.status}`);
-		}
-		return response.json();
-	})
-	.then(responseData => {
-		console.log('Success!:', responseData);
-		closeReservationTimesModal();
-		closeNewReservationModal();
-		fetchReservations();
-	})
-	.catch(error => {
-		console.error('Error:', error);
-	});
+  if (!first_name) {
+    invalidMessages.push('Please enter a valid first name.');
+  }
+
+  if (!last_name) {
+    invalidMessages.push('Please enter a valid last name.');
+  }
+
+  // Phone format validation
+  const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+  if (!phoneRegex.test(phone)) {
+    invalidMessages.push('Please enter a valid phone number in the format XXX-XXX-XXXX.');
+    phoneInput.value = '';
+  }
+
+  // Email format validation
+  const emailRegex = /\S+@\S+\.\S+/;
+  if (!emailRegex.test(email)) {
+    invalidMessages.push('Please enter a valid email address.');
+    emailInput.value = '';
+  }
+
+  if (invalidMessages.length > 0) {
+    alert('Invalid Input:\n' + invalidMessages.join('\n'));
+    return;
+  }
+
+  const reservationData = {
+    first_name: first_name,
+    last_name: last_name,
+    phone: phone,
+    email: email,
+    date: selectedDate,
+    time: selectedTime
+  };
+
+  fetch('CustomerCalendar', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(reservationData),
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Error:${response.status}`);
+    }
+    return response.json();
+  })
+  .then(responseData => {
+    console.log('Success!:', responseData);
+    closeReservationTimesModal();
+    closeNewReservationModal();
+    fetchReservations();
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }
+
+
+
 
 function deleteReservation(reservationId) {
   fetch('Cust_Calendar_Deletion', {
