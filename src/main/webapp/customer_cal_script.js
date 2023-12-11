@@ -315,6 +315,9 @@ function deleteReservation(reservationId) {
   });
 }
 
+function signOut() {
+  window.location.href = 'index.html';
+}
 
 function initButtons() {
 	document.getElementById('nextButton').addEventListener('click', () => {
@@ -328,6 +331,7 @@ function initButtons() {
 		load();
 		fetchReservations();
 	});
+	document.getElementById('signoutButton').addEventListener('click', signOut);
 	document.getElementById('saveButton').addEventListener('click', saveReservation);
 	document.getElementById('cancelButton').addEventListener('click', closeNewReservationModal);
 }
