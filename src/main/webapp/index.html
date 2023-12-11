@@ -11,9 +11,9 @@
         <div> <!-- Yes, this div *is* necessary for styling. -->
             <div id="login-box">
                 <h1>Restaurant Reservation Application</h1>
-                <form>
-                    <input type="text" placeholder="Username" required>
-                    <input type="password" placeholder="Password" required>
+                <form name="login" method="GET" action="./Login">
+                    <input type="text" placeholder="Username" required name="username">
+                    <input type="password" placeholder="Password" required name="password">
                     <div id="btn-reverse-flex">
                         <button type="submit" id="signin-btn">Sign In</button>
                         <button type="button" id="signup-btn">Sign Up</button>
