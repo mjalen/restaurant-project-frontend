@@ -1,6 +1,7 @@
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 
 class Cust_Calendar_CreationTest {
@@ -32,16 +34,17 @@ class Cust_Calendar_CreationTest {
 
     @Mock
     PreparedStatement mockStatement;
-
+    
     @Mock
     ResultSet mockResultSet;
+    
+    @Mock
+    JSONObject mockJSONObject;
 
     // This will hold our mocked static block
     MockedStatic<DBConnectionDelta> mockedDBConnection;
 
     @BeforeEach
-    
-    
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
      // Create mock objects for connection, preparedStatement, etc.
@@ -58,20 +61,15 @@ class Cust_Calendar_CreationTest {
         mockedDBConnection = Mockito.mockStatic(DBConnectionDelta.class);
         mockedDBConnection.when(DBConnectionDelta::getDBConnection)
                           .then(invocation -> DBConnectionDelta.connection = mockConnection);
-        
 
         // Configure the mock objects as necessary
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
         when(mockStatement.executeQuery()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(true).thenReturn(false); // Example behavior
 
-        // Mock the static method getDBConnection to return the mock connection
-        mockedDBConnection = Mockito.mockStatic(DBConnectionDelta.class);
-        mockedDBConnection.when(() -> DBConnectionDelta.getDBConnection()).thenAnswer(invocation -> null);
-
         when(response.getWriter()).thenReturn(writer);
     }
-
+   
     @Test
     void testDoGet() throws Exception {
         // Arrange
@@ -92,18 +90,25 @@ class Cust_Calendar_CreationTest {
         // Arrange
         when(request.getReader()).thenReturn(
             new BufferedReader(new StringReader(
-                "{\"first_name\":\"John\",\"last_name\":\"Doe\",\"phone\":\"1234567890\",\"email\":\"johndoe@example.com\",\"date\":\"2023-12-31\",\"time\":\"18:00\"}"
+                "{\"first_name\":\"John\",\"last_name\":\"Doe\",\"phone\":\"123-456-7890\",\"email\":\"johndoe@example.com\",\"date\":\"2023-12-31\",\"time\":\"18:00\"}"
             ))
         );
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
         when(response.getWriter()).thenReturn(printWriter);
+        
+        when(mockStatement.executeUpdate()).thenReturn(1);
+        when(mockStatement.getGeneratedKeys()).thenReturn(mockResultSet);
+        
+        when(mockConnection.prepareStatement(
+        		"INSERT INTO Reservations (first_name, last_name, phone, email, date, time) VALUES (?, ?, ?, ?, ?, ?)", 
+        		Statement.RETURN_GENERATED_KEYS
+        )).thenReturn(mockStatement);
 
         // Act
         new Cust_Calendar_Creation().doPost(request, response);
-
+        
         // Assert
-        printWriter.flush();
         assertTrue(stringWriter.toString().contains("success"));
     }
     
