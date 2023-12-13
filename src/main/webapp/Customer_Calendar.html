@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservation Calendar</title>
-
     <link rel="stylesheet" href="customer_cal_style.css">
   </head>
   <div>
@@ -13,6 +12,7 @@
       <div id="header">
         <div id="monthDisplay"></div>
         <div>
+		  <button id="signoutButton">Sign Out</button>
           <button id="backButton">Back</button>
           <button id="nextButton">Next</button>
         </div>
@@ -40,7 +40,7 @@
 		<p>Available Times</p>
 		
 		<div class="times" id="timesContainer">
-			<!-- DYnamic Times buttons added here. -->
+			<!-- Dynamic Times buttons added here. -->
 		</div>
 		<button id="closeTimesButton">Close</button>
 	</div>
@@ -66,8 +66,8 @@
 	    <button id="goBack">Back</button>
 	</div>
 
-	<div id="modalBackDrop"></div>
-
+	<div id="modalBackDrop"></div>.
+	
     <script src="./customer_cal_script.js"></script>
   </body>
 </html>
