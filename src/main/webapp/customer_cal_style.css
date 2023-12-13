@@ -157,6 +157,10 @@ button {
   background-color: #d36c6c;
 }
 
+#closeTimesButton {
+  background-color: #92a1d1;
+  color:black;
+}
 #saveButton, #closeButton {
   background-color: #92a1d1;
   color:black;
